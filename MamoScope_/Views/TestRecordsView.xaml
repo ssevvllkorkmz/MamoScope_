@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="MaMoScope_.Views.TestRecordsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MaMoScope_"
+             mc:Ignorable="d" 
+             d:Height="650" d:Width="900" MinHeight="600" MinWidth="850">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource BackgroundBrush}">
+
+        <Border Background="{StaticResource SurfaceBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="10"
+                Padding="32"
+                MaxWidth="480"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+            <StackPanel>
+
+                <TextBlock Text="Motor Sürücü Testi" Style="{StaticResource PageTitle}" Margin="0,0,0,24"/>
+                <TextBlock Text="Seri Numarası" Style="{StaticResource FieldLabel}"/>
+                <TextBox Text="{Binding SerialNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Margin="0,0,0,16"/>
+
+                <TextBlock Text="Voltaj Değeri" Style="{StaticResource FieldLabel}"/>
+                <TextBox Text="{Binding VoltageValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}" Margin="0,0,0,16"/>
+
+
+                <TextBlock Text="Tarih" Style="{StaticResource FieldLabel}"/>
+                <TextBox Text="{Binding Date, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}" Margin="0,0,0,20"/>
+
+                <Grid Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Content="Geçmiş Testler" 
+                            Command="{Binding OpenPastRecordCommand}"
+                            Style="{StaticResource SecondaryButton}" Height="44"/>
+
+                    <Button Grid.Column="2" Content="Test Et" 
+                            Command="{Binding TestandRecordVoltageCommand}"
+                            Style="{StaticResource PrimaryButton}" Height="44"/>
+                </Grid>
+
+                <Button Content="Test Verisi Simüle Et" 
+                        Command="{Binding SimulateTestDataCommand}" 
+                        Style="{StaticResource SecondaryButton}" Height="40"
+                        HorizontalAlignment="Stretch"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Background="#CC000000"
+           Visibility="{Binding IsResultDialogOpen, Converter={StaticResource BoolToVis}}">
+            <Border Background="{StaticResource SurfaceBrush}"
+ Width="590" Height="200"
+ CornerRadius="15"
+ HorizontalAlignment="Center"
+ VerticalAlignment="Center"
+ Padding="24"
+>
+
+
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Test Sonucu" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="{Binding ResultMessage}"  
+            FontSize="16" 
+            HorizontalAlignment="Center" 
+            TextAlignment="Center" 
+            Margin="0,0,0,20"/>
+
+                    <Button Content="Tamam" 
+                Command="{Binding CloseResultDialogCommand}"
+        
+         Width="100" Height="35"
+         Style="{StaticResource PrimaryButton}"/>
+
+                </StackPanel>
+            </Border>
+
+            <Grid>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="MaMoScope_.Controls.NavbarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MaMoScope_.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="280">
+    <Grid Background="{StaticResource PrimaryBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Padding="16" FontSize="30" Foreground="White" 
+                   Text="MamoScopeTest" Background="{StaticResource PrimaryBrush}"/>
+
+        <RadioButton Grid.Row="1" Content="Test" FontSize="22" Padding="10" 
+                     Style="{StaticResource NavButton}"
+                     Command="{Binding OpenTestCommand}"/>
+
+        <RadioButton Grid.Row="2" Content="Veri" FontSize="22" Padding="10" 
+                     Style="{StaticResource NavButton}"
+                     Command="{Binding OpenPastRecordsCommand}"/>
+    </Grid>
+</UserControl>
