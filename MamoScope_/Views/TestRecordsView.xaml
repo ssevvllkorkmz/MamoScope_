@@ -32,26 +32,15 @@
                 <TextBox Text="{Binding VoltageValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                          Style="{StaticResource ModernTextBox}" Margin="0,0,0,16"/>
 
-
                 <TextBlock Text="Tarih" Style="{StaticResource FieldLabel}"/>
                 <TextBox Text="{Binding Date, UpdateSourceTrigger=PropertyChanged}" 
                          Style="{StaticResource ModernTextBox}" Margin="0,0,0,20"/>
 
-                <Grid Margin="0,0,0,12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="12"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Button Grid.Column="0" Content="Geçmiş Testler" 
-                            Command="{Binding OpenPastRecordCommand}"
-                            Style="{StaticResource SecondaryButton}" Height="44"/>
-
-                    <Button Grid.Column="2" Content="Test Et" 
-                            Command="{Binding TestandRecordVoltageCommand}"
-                            Style="{StaticResource PrimaryButton}" Height="44"/>
-                </Grid>
+                <Button Content="Test Et" 
+                        Command="{Binding TestandRecordVoltageCommand}"
+                        Style="{StaticResource PrimaryButton}" Height="40"
+                        HorizontalAlignment="Stretch"
+                        Margin="0,0,0,12"/>
 
                 <Button Content="Test Verisi Simüle Et" 
                         Command="{Binding SimulateTestDataCommand}" 
@@ -63,35 +52,29 @@
         <Grid Background="#CC000000"
            Visibility="{Binding IsResultDialogOpen, Converter={StaticResource BoolToVis}}">
             <Border Background="{StaticResource SurfaceBrush}"
- Width="590" Height="200"
- CornerRadius="15"
- HorizontalAlignment="Center"
- VerticalAlignment="Center"
- Padding="24"
->
-
+                    Width="450" MinHeight="200"
+                    CornerRadius="15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Padding="24">
 
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="Test Sonucu" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
 
                     <TextBlock Text="{Binding ResultMessage}"  
-            FontSize="16" 
-            HorizontalAlignment="Center" 
-            TextAlignment="Center" 
-            Margin="0,0,0,20"/>
+                               FontSize="16" 
+                               HorizontalAlignment="Center" 
+                               TextAlignment="Center" 
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,20"/>
 
                     <Button Content="Tamam" 
-                Command="{Binding CloseResultDialogCommand}"
-        
-         Width="100" Height="35"
-         Style="{StaticResource PrimaryButton}"/>
-
+                            Command="{Binding CloseResultDialogCommand}"
+                            Width="100" Height="35"
+                            Style="{StaticResource PrimaryButton}"
+                            HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
-
-            <Grid>
-
-            </Grid>
         </Grid>
     </Grid>
 </UserControl>

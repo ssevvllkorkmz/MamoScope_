@@ -26,10 +26,7 @@
                 <StackPanel>
                     <DockPanel Margin="0,0,0,24">
                         <TextBlock Text="Geçmiş Test Kayıtları" Style="{StaticResource PageTitle}"/>
-                        <Button Content="Yeni Test" 
-                            Command="{Binding OpenRecordPageCommand}" 
-                            Style="{StaticResource PrimaryButton}" 
-                            Width="140" HorizontalAlignment="Right"/>
+                        
                     </DockPanel>
 
                     <Grid Margin="0,0,0,12">

@@ -68,7 +68,7 @@ namespace MaMoScope_
             var navService = ServiceProvider.GetRequiredService<INavigationService>();
             var mainVM = ServiceProvider.GetRequiredService<MainWindowViewModel>();
 
-            //navService.NavigateTo<TestRecordsViewModel>();
+            navService.NavigateTo<TestRecordsViewModel>();
 
             var mainLayout = ServiceProvider.GetRequiredService<MainWindowView>();
 

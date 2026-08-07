@@ -6,8 +6,8 @@ using System.Text;
 namespace MaMoScope_.ViewModels
 {
     [ObservableObject]
-    public partial class ViewModelBase
+    public partial class ViewModelBase : IDisposable
     {
-
+        public virtual void Dispose() { }
     }
 }

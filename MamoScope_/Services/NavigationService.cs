@@ -33,11 +33,15 @@ namespace MaMoScope_.Services
 
         public void NavigateTo<TViewModel>() where TViewModel : notnull
         {
+            if (CurrentView is IDisposable disposable)
+                disposable.Dispose();
             CurrentView = _serviceProvider.GetRequiredService<TViewModel>();
         }
 
         public void NavigateTo(ViewModelBase viewModel)
         {
+            if (CurrentView is IDisposable disposable)
+                disposable.Dispose();
             CurrentView = viewModel;
         }
     }

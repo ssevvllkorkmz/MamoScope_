@@ -5,24 +5,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MaMoScope_.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="280">
+             d:DesignHeight="900" d:DesignWidth="260">
+
     <Grid Background="{StaticResource PrimaryBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Padding="16" FontSize="30" Foreground="White" 
-                   Text="MamoScopeTest" Background="{StaticResource PrimaryBrush}"/>
+        
+        <StackPanel Grid.Row="0" Margin="24,28,24,20">
+            <TextBlock Text="MamoScope" FontSize="22" FontWeight="Bold" Foreground="White"/>
+            <TextBlock Text="Test Sistemi" FontSize="12" Foreground="#8FA8C9" Margin="0,2,0,0"/>
+        </StackPanel>
 
-        <RadioButton Grid.Row="1" Content="Test" FontSize="22" Padding="10" 
-                     Style="{StaticResource NavButton}"
-                     Command="{Binding OpenTestCommand}"/>
+        <Rectangle Grid.Row="0" VerticalAlignment="Bottom" Height="1" 
+                   Fill="#2B5A94" Margin="24,0,24,12"/>
 
-        <RadioButton Grid.Row="2" Content="Veri" FontSize="22" Padding="10" 
-                     Style="{StaticResource NavButton}"
-                     Command="{Binding OpenPastRecordsCommand}"/>
+        
+        <StackPanel Grid.Row="1">
+            <RadioButton Content="Test" Style="{StaticResource NavButton}" 
+                         Command="{Binding OpenTestCommand}" IsChecked="True"/>
+            <RadioButton Content="Geçmiş Kayıtlar" Style="{StaticResource NavButton}" 
+                         Command="{Binding OpenPastRecordsCommand}"/>
+        </StackPanel>
+
+       
+        <StackPanel Grid.Row="3" Margin="24,0,24,20">
+            <Rectangle Height="1" Fill="#2B5A94" Margin="0,0,0,12"/>
+            <TextBlock Text="v1.0.0" FontSize="11" Foreground="#6E88AA"/>
+        </StackPanel>
     </Grid>
 </UserControl>

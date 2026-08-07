@@ -12,8 +12,6 @@
 
     <Window.Resources>
 
-        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-
         <DataTemplate DataType="{x:Type vm:TestRecordsViewModel}">
             <vw:TestRecordsView/>
         </DataTemplate>

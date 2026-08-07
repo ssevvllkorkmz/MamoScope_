@@ -38,6 +38,8 @@ namespace MaMoScope_.ViewModels
         private readonly IMotorDriversService _service;
         private readonly IDialogService _dialogService;
 
+        private readonly Action<bool> _onLoadingChangedHandler;
+
         public PastRecordsViewModel(MotorDriversStore store,INavigationService navigationService,IViewModelFactory viewModelFactory,IMotorDriversService service,IDialogService dialogService) 
         {
             _store = store;
@@ -51,7 +53,14 @@ namespace MaMoScope_.ViewModels
             {
                 IsAppLoading = isLoading;
             };
-        } 
+
+            _dialogService.OnLoadingChanged += _onLoadingChangedHandler;
+        }
+
+        public override void Dispose()
+        {
+            _dialogService.OnLoadingChanged -= _onLoadingChangedHandler;
+        }
 
         public ObservableCollection<MotorDrivers> Records => _store.Records;
 

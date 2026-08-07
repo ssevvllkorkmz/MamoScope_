@@ -32,6 +32,9 @@ namespace MaMoScope_.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IMotorDriversService _service;
 
+        private readonly Action<string, bool> _onShowDialogHandler;
+        private readonly Action _onCloseDialogHandler;
+
         public RecordDetailsViewModel (MotorDrivers selectedRecord,INavigationService navigationService,IDialogService dialogService,IMotorDriversService service)
         {
             _navigationService = navigationService;
@@ -50,6 +53,9 @@ namespace MaMoScope_.ViewModels
                 IsResultDialogOpen = false;
             };
 
+            _dialogService.OnShowDialog += _onShowDialogHandler;
+            _dialogService.OnCloseDialog += _onCloseDialogHandler;
+
             EditableRecord = new MotorDrivers
             {
                 Id = selectedRecord.Id,
@@ -62,6 +68,11 @@ namespace MaMoScope_.ViewModels
             VoltageValueText = selectedRecord.Voltage.ToString(CultureInfo.InvariantCulture);
         }
 
+        public override void Dispose()
+        {
+            _dialogService.OnShowDialog -= _onShowDialogHandler;
+            _dialogService.OnCloseDialog -= _onCloseDialogHandler;
+        }
 
         [RelayCommand]
         private void GoBack()

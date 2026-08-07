@@ -26,7 +26,6 @@ namespace MaMoScope_.Data
              $@"Server=(localdb)\mssqllocaldb;AttachDbFilename={mdfYolu};Database=MamoScope_Db;Trusted_Connection=True;",
                 sqlServerOptionsAction: sqlOptions =>
                 {
-
                     sqlOptions.EnableRetryOnFailure(
                         maxRetryCount: 5,
                         maxRetryDelay: TimeSpan.FromSeconds(30),

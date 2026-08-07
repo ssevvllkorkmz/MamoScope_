@@ -45,6 +45,9 @@ namespace MaMoScope_.ViewModels
         private readonly IMotorDriversService _service;
         private readonly INavigationService _navigationService;
 
+        private readonly Action<string, bool> _onShowDialogHandler;
+        private readonly Action _onCloseDialogHandler;
+
         public TestRecordsViewModel(IDialogService dialogService, IMotorDriversService service, INavigationService navigationservice)
         {
             _dialogService = dialogService;
@@ -63,6 +66,15 @@ namespace MaMoScope_.ViewModels
             {
                 IsResultDialogOpen = false;
             };
+
+            _dialogService.OnShowDialog += _onShowDialogHandler;
+            _dialogService.OnCloseDialog += _onCloseDialogHandler;
+
+        }
+        public override void Dispose()
+        {
+            _dialogService.OnShowDialog -= _onShowDialogHandler;
+            _dialogService.OnCloseDialog -= _onCloseDialogHandler;
         }
 
         [RelayCommand]
@@ -71,6 +83,7 @@ namespace MaMoScope_.ViewModels
             if (string.IsNullOrEmpty(voltageValue) || string.IsNullOrEmpty(serialNumber))
             {
                 _dialogService.ShowResultDialog("Lütfen önce voltaj ve seri numarası değerleri girin!", false);
+                return;
             }
 
             string voltageMessage = voltageValue.Trim().Replace(",", ".");
