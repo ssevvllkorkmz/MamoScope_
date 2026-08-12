@@ -1,16 +1,14 @@
 ﻿using MaMoScope_.Controls;
 using MaMoScope_.Core.Interface;
-using MaMoScope_.Data;
-using MaMoScope_.Data.Repository;
 using MaMoScope_.Factories;
 using MaMoScope_.Services;
 using MaMoScope_.ViewModels;
 using MaMoScope_.Views;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 using System.Windows;
+using Microsoft.Extensions.Http;
 
 
 
@@ -32,12 +30,16 @@ namespace MaMoScope_
 
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextFactory<AppDbContext>();
 
-            services.AddTransient<IMotorDriversService, MotorDriversService>();
+            services.AddHttpClient<IMotorDriversService, MotorDriversService>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5132/");
+            });
+
+            
             services.AddSingleton<MotorDriversStore>();
             services.AddSingleton<INavigationService, NavigationService>();
-            services.AddTransient<IMotorDriversRepository, MotorDriversRepository>();
+            
 
 
             services.AddTransient<PastRecordsViewModel>();
@@ -60,10 +62,6 @@ namespace MaMoScope_
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
-
-            var dbFactory = ServiceProvider.GetRequiredService<IDbContextFactory<AppDbContext>>();
-            using (var db = dbFactory.CreateDbContext()) { db.Database.EnsureCreated(); }
 
             var navService = ServiceProvider.GetRequiredService<INavigationService>();
             var mainVM = ServiceProvider.GetRequiredService<MainWindowViewModel>();

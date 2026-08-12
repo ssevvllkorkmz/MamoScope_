@@ -3,26 +3,33 @@ using MaMoScope_.Core.Interface;
 using MaMoScope_.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.Json;
 using System.Text.RegularExpressions;
-
+using System.Threading.Tasks;
 
 namespace MaMoScope_.Services
 {
     public partial class MotorDriversService : IMotorDriversService
     {
-        private readonly IMotorDriversRepository _repository;
+        private readonly HttpClient _httpClient;
         private readonly MotorDriversStore _store;
 
         private static readonly Regex SeriNumarasiFormati = new Regex(@"^OPT-DRV-\d{4}$", RegexOptions.Compiled);
-
-        public MotorDriversService(IMotorDriversRepository repository,MotorDriversStore store)
+        private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
         {
-            _repository = repository;
+            PropertyNameCaseInsensitive = true
+        };
+
+        public MotorDriversService(HttpClient httpClient, MotorDriversStore store)
+        {
+            _httpClient = httpClient;
             _store = store;
         }
 
-        private void  VerifySerialNumber(string serialNumber)
+        private void VerifySerialNumber(string serialNumber)
         {
             if (string.IsNullOrWhiteSpace(serialNumber) || !SeriNumarasiFormati.IsMatch(serialNumber))
             {
@@ -30,7 +37,7 @@ namespace MaMoScope_.Services
             }
         }
 
-        public (string SerialNumber,double Voltage) SimulateTestData()
+        public (string SerialNumber, double Voltage) SimulateTestData()
         {
             var rnd = new Random();
             int randomNumber = rnd.Next(1000, 9999);
@@ -42,11 +49,12 @@ namespace MaMoScope_.Services
             return (serialNumber, newVoltage);
         }
 
-        public async Task<(bool IsSuccessed, string TestResult)> TestandRecordVoltage(string SerialNumber,double Voltage)
+        public async Task<(bool IsSuccessed, string TestResult)> TestandRecordVoltage(string SerialNumber, double Voltage)
         {
             VerifySerialNumber(SerialNumber);
-            var currentRecord = await _repository.GetBySerialNumberAsync(SerialNumber);
-            if (currentRecord != null)
+
+            bool exists = _store.Records.Any(x => x.SerialNumber == SerialNumber);
+            if (exists)
             {
                 throw new InvalidOperationException($"'{SerialNumber}' seri numaralı kayıt zaten mevcut. Lütfen yeni bir test simüle edin.");
             }
@@ -62,32 +70,40 @@ namespace MaMoScope_.Services
                 TestDate = DateTime.Now
             };
 
-            await _repository.AddAsync(newRecord);
-            _store.Records.Insert(0, newRecord);
-            return (IsSuccessed, TestResult);
-        } 
+            var response = await _httpClient.PostAsJsonAsync("api/motortests", newRecord);
+            response.EnsureSuccessStatusCode();
 
-        public Task<List<MotorDrivers>> GetPastRecordAsync()
+            var created = await response.Content.ReadFromJsonAsync<MotorDrivers>(_jsonOptions);
+
+            _store.Records.Insert(0, created ?? newRecord);
+            return (IsSuccessed, TestResult);
+        }
+
+        public async Task<List<MotorDrivers>> GetPastRecordAsync()
         {
-            return _repository.GetAllAsync();
+            var response = await _httpClient.GetAsync("api/motortests");
+            response.EnsureSuccessStatusCode();
+
+            var records = await response.Content.ReadFromJsonAsync<List<MotorDrivers>>(_jsonOptions);
+            return records ?? new List<MotorDrivers>();
         }
 
         public async Task LoadAsync()
         {
-            var list = await _repository.GetAllAsync();
+            var list = await GetPastRecordAsync();
 
             _store.Records.Clear();
             foreach (var record in list)
-            _store.Records.Add(record);
+                _store.Records.Add(record);
         }
 
         public async Task UpdateAsync(MotorDrivers record)
         {
-
             VerifySerialNumber(record.SerialNumber);
 
-            var sameSerialNumber = await _repository.GetBySerialNumberAsync(record.SerialNumber);
-            if (sameSerialNumber != null && sameSerialNumber.Id != record.Id)
+            var sameSerialNumber = _store.Records
+                .FirstOrDefault(x => x.SerialNumber == record.SerialNumber && x.Id != record.Id);
+            if (sameSerialNumber != null)
             {
                 throw new InvalidOperationException($"'{record.SerialNumber}' seri numarası başka bir kayıtta zaten kullanılıyor.");
             }
@@ -95,7 +111,8 @@ namespace MaMoScope_.Services
             bool IsSuccessed = record.Voltage >= 23.5 && record.Voltage <= 24.5;
             record.IsPassed = IsSuccessed;
 
-            await _repository.UpdateAsync(record);
+            var response = await _httpClient.PutAsJsonAsync($"api/motortests/{record.Id}", record);
+            response.EnsureSuccessStatusCode();
 
             var current = _store.Records.FirstOrDefault(x => x.Id == record.Id);
             if (current != null)
@@ -107,12 +124,12 @@ namespace MaMoScope_.Services
 
         public async Task DeleteAsync(int id)
         {
-            await _repository.DeleteAsync(id);
+            var response = await _httpClient.DeleteAsync($"api/motortests/{id}");
+            response.EnsureSuccessStatusCode();
 
             var record = _store.Records.FirstOrDefault(x => x.Id == id);
             if (record != null)
-            _store.Records.Remove(record);
+                _store.Records.Remove(record);
         }
-
     }
 }

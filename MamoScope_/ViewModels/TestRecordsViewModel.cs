@@ -1,11 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MaMoScope_.Core.Interface;
-using MaMoScope_.Data;
 using MaMoScope_.Models;
 using MaMoScope_.Services;
 using MaMoScope_.Views;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
