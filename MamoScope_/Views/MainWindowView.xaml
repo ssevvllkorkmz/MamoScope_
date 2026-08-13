@@ -8,7 +8,7 @@
         xmlns:vw="clr-namespace:MaMoScope_.Views"
         xmlns:vM="clr-namespace:MaMoScope_.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MamoScopeTest" Height="750" Width="1200" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
 

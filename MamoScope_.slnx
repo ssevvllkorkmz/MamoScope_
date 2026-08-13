@@ -1,4 +1,4 @@
 <Solution>
-  <Project Path="../MamoScope_API/MamoScope_API/MamoScope_API.csproj" />
   <Project Path="MaMoScope_/MaMoScope_.csproj" />
+  <Project Path="MamoScope_API/MamoScope_API.csproj" Id="024d2ab9-8560-450f-88d3-8815789325aa" />
 </Solution>

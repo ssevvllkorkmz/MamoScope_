@@ -67,7 +67,7 @@ namespace MaMoScope_.Services
                 SerialNumber = SerialNumber,
                 Voltage = Voltage,
                 IsPassed = IsSuccessed,
-                TestDate = DateTime.Now
+                TestDate = DateTime.UtcNow
             };
 
             var response = await _httpClient.PostAsJsonAsync("api/motortests", newRecord);
