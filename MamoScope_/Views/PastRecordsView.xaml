@@ -68,7 +68,7 @@
 
                                             <TextBlock Grid.Column="0" Text="{Binding SerialNumber}" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                                             <TextBlock Grid.Column="1" Text="{Binding Voltage, StringFormat={}{0:F1}V}" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding TestDate, StringFormat={}{0:dd.MM.yyyy HH:mm}}" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding TestDateLocal, StringFormat={}{0:dd.MM.yyyy HH:mm}}" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
 
                                             <TextBlock Grid.Column="3" FontWeight="Bold" VerticalAlignment="Center">
                                                 <TextBlock.Style>

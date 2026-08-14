@@ -10,6 +10,7 @@ namespace MaMoScope_.Models
         public string SerialNumber { get; set; }
         public double Voltage { get; set; }
         public DateTime TestDate { get; set; }
+        public DateTime TestDateLocal => DateTime.SpecifyKind(TestDate, DateTimeKind.Utc).ToLocalTime();
         public bool IsPassed { get; set; }
 
     }
