@@ -5,10 +5,11 @@ using MaMoScope_.Services;
 using MaMoScope_.ViewModels;
 using MaMoScope_.Views;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http;
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Windows;
-using Microsoft.Extensions.Http;
 
 
 
@@ -91,6 +92,20 @@ namespace MaMoScope_
             mainLayout.Show();
 
             splash.Close();
+
+            _ = Task.Run(StartKeepAlive);
+
+
+        }
+
+        private async Task StartKeepAlive()
+        {
+            var client = new HttpClient { BaseAddress = new Uri("https://mamoscope.onrender.com/") };
+            while (true)
+            {
+                try { await client.GetAsync("health"); } catch { }
+                await Task.Delay(TimeSpan.FromMinutes(10));
+            }
         }
     }
 

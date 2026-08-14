@@ -43,7 +43,7 @@
                              Style="{StaticResource ModernTextBox}"/>
 
                     <TextBlock Text="Test Tarihi" Style="{StaticResource FieldLabel}"/>
-                    <TextBox Text="{Binding EditableRecord.TestDate}" 
+                    <TextBox Text="{Binding EditableRecord.TestDateLocal}" 
                              Style="{StaticResource ModernTextBox}" 
                              IsReadOnly="True" 
                              Margin="0,0,0,20"/>
