@@ -33,8 +33,12 @@ using (var scope = app.Services.CreateScope())
     await using var command = db.Database.GetDbConnection().CreateCommand();
 
     command.CommandText = """
-        SELECT current_database(), current_schema(), current_user;
-        """;
+    SELECT
+        current_database(),
+        current_schema(),
+        current_user,
+        to_regclass('public."MotorDrivers"');
+    """;
 
     await using var reader = await command.ExecuteReaderAsync();
 
@@ -44,6 +48,7 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine($"Database: {reader.GetString(0)}");
         Console.WriteLine($"Schema: {reader.GetString(1)}");
         Console.WriteLine($"User: {reader.GetString(2)}");
+        Console.WriteLine($"MotorDrivers: {(reader.IsDBNull(3) ? "YOK" : reader.GetString(3))}");
         Console.WriteLine("===================================");
     }
 
