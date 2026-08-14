@@ -1,10 +1,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-COPY ["MamoScope_API.csproj", "./"]
-RUN dotnet restore "MamoScope_API.csproj"
+COPY ["MamoScope_API/MamoScope_API.csproj", "./"]
+RUN dotnet restore "MamoScope_API/MamoScope_API.csproj"
 
-COPY . .
+COPY MamoScope_API/. .
+
 RUN dotnet publish "MamoScope_API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
