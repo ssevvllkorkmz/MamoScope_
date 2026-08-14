@@ -61,7 +61,7 @@ namespace MaMoScope_.ViewModels
                 Id = selectedRecord.Id,
                 Voltage = selectedRecord.Voltage,
                 SerialNumber = selectedRecord.SerialNumber,
-                TestDate = selectedRecord.TestDate,
+                TestDate = DateTime.SpecifyKind(selectedRecord.TestDate, DateTimeKind.Utc).ToLocalTime(),
                 IsPassed = selectedRecord.IsPassed
             };
 
