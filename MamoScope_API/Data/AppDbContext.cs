@@ -18,6 +18,8 @@ namespace MamoScope_API.Data
 
             modelBuilder.Entity<MotorDrivers>(entity =>
             {
+                entity.ToTable("MotorDrivers", "public");
+
                 entity.HasKey(e => e.Id);
 
                 entity.Property(e => e.SerialNumber)
