@@ -59,36 +59,38 @@ namespace MaMoScope_
 
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            var splash = new SplashWindow();
+            splash.Show();
 
             var navService = ServiceProvider.GetRequiredService<INavigationService>();
             var mainVM = ServiceProvider.GetRequiredService<MainWindowViewModel>();
 
             navService.NavigateTo<TestRecordsViewModel>();
 
-            var mainLayout = ServiceProvider.GetRequiredService<MainWindowView>();
-
-
-            mainLayout.DataContext = mainVM;
-            mainLayout.Show();
-
-            _ = Task.Run(async () =>
+            try
             {
                 var service = ServiceProvider.GetRequiredService<IMotorDriversService>();
                 var store = ServiceProvider.GetRequiredService<MotorDriversStore>();
 
                 var allRecords = await service.GetPastRecordAsync();
 
-                Application.Current.Dispatcher.Invoke(() =>
-                {
+                foreach (var record in allRecords)
+                    store.Records.Add(record);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Sunucuya bağlanılamadı: " + ex.Message);
+            }
 
-                    foreach (var record in allRecords)
-                        store.Records.Add(record);
+            var mainLayout = ServiceProvider.GetRequiredService<MainWindowView>();
+            mainLayout.DataContext = mainVM;
+            mainLayout.Show();
 
-                });
-            });
+            splash.Close();
         }
     }
 
