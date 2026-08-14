@@ -46,7 +46,7 @@ namespace MamoScope_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MotorDrivers");
+                    b.ToTable("MotorDrivers", "public");
                 });
 #pragma warning restore 612, 618
         }
