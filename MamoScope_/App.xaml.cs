@@ -33,7 +33,7 @@ namespace MaMoScope_
 
             services.AddHttpClient<IMotorDriversService, MotorDriversService>(client =>
             {
-                client.BaseAddress = new Uri("http://localhost:5070");
+                client.BaseAddress = new Uri("https://mamoscope.onrender.com/");
             });
 
             
