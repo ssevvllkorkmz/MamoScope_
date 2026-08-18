@@ -1,7 +1,7 @@
-﻿using MaMoScope_API.Data;
+﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace MamoScope_API.Data
+namespace Infrastructure.Data
 {
     public class AppDbContext : DbContext
     {

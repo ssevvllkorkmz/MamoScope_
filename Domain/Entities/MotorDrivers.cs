@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MaMoScope_API.Data
+namespace Domain.Entities
 {
     public class MotorDrivers
     {

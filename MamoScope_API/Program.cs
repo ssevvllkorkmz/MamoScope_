@@ -1,5 +1,8 @@
-using MamoScope_API.Data;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Application.Interfaces;
+using Application.Services;
+using Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +20,7 @@ builder.Services.AddDbContextFactory<AppDbContext>(options =>
         }));
 
 builder.Services.AddScoped<IMotorDriversRepository, MotorDriversRepository>();
+builder.Services.AddScoped<MotorDriverService>();
 
 builder.Services.AddOpenApi();
 

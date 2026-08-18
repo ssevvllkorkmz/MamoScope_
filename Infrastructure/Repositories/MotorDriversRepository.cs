@@ -1,10 +1,12 @@
-﻿using MaMoScope_API.Data;
+﻿using Domain.Entities;
+using Application.Interfaces;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MamoScope_API.Data
+namespace Infrastructure.Repositories
 {
     public class MotorDriversRepository : IMotorDriversRepository
     {

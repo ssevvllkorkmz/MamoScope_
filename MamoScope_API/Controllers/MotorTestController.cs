@@ -1,5 +1,5 @@
-﻿using MamoScope_API.Data;
-using MaMoScope_API.Data;
+﻿using Application.DTOs;
+using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MamoScope_API.Controllers
@@ -8,69 +8,86 @@ namespace MamoScope_API.Controllers
     [Route("api/[controller]")]
     public class MotorTestsController : ControllerBase
     {
-        private readonly IMotorDriversRepository _repository;
+        private readonly MotorDriverService _service;
 
-        public MotorTestsController(IMotorDriversRepository repository)
+        public MotorTestsController(MotorDriverService service)
         {
-            _repository = repository;
+            _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<MotorDrivers>>> GetAll()
+        public async Task<ActionResult<List<MotorDriverDto>>> GetAll()
         {
-            var records = await _repository.GetAllAsync();
+            var records = await _service.GetAllAsync();
+
             return Ok(records);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Create([FromBody] MotorDrivers record)
+        [HttpGet("{serialNumber}")]
+        public async Task<ActionResult<MotorDriverDto>> GetBySerialNumber(
+            string serialNumber)
         {
-            if (record == null)
-                return BadRequest("Geçersiz veri.");
+            var record = await _service.GetBySerialNumberAsync(serialNumber);
 
+            if (record == null)
+                return NotFound();
+
+            return Ok(record);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<MotorDriverDto>> Create(
+            CreateMotorDriverDto dto)
+        {
             try
             {
-                await _repository.AddAsync(record);
-                return StatusCode(201, record);
+                var created = await _service.AddAsync(dto);
+
+                return Ok(created);
             }
-            catch (Exception ex)
+            catch (InvalidOperationException ex)
             {
-                return StatusCode(500, $"Kayıt sırasında hata oluştu: {ex.Message}");
+                return Conflict(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, [FromBody] MotorDrivers record)
+        public async Task<ActionResult<MotorDriverDto>> Update(
+            int id,
+            CreateMotorDriverDto dto)
         {
-            if (record == null || id != record.Id)
-                return BadRequest("Geçersiz veri.");
-
             try
             {
-                await _repository.UpdateAsync(record);
-                return Ok(record);
+                var updated = await _service.UpdateAsync(id, dto);
+
+                return Ok(updated);
             }
-            catch (Exception ex)
+            catch (InvalidOperationException ex)
             {
-                return StatusCode(500, $"Güncelleme sırasında hata oluştu: {ex.Message}");
+                return Conflict(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                await _repository.DeleteAsync(id);
+                await _service.DeleteAsync(id);
+
                 return NoContent();
             }
             catch (InvalidOperationException ex)
             {
                 return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Silme sırasında hata oluştu: {ex.Message}");
             }
         }
     }

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace MamoScope_API.Migrations
+namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class UpdateMotorDriversModel : Migration

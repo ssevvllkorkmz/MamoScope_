@@ -1,4 +1,7 @@
 <Solution>
+  <Project Path="Application/Application.csproj" Id="9c421553-c7a9-49a1-bcc7-c3166ce5d888" />
+  <Project Path="Domain/Domain.csproj" Id="d6230ba2-d86c-4d72-bbce-dfdebafe909f" />
+  <Project Path="Infrastructure/Infrastructure.csproj" Id="c93712f1-1c0c-4cbe-b416-5e4f4a0cdf0a" />
   <Project Path="MaMoScope_/MaMoScope_.csproj" />
   <Project Path="MamoScope_API/MamoScope_API.csproj" Id="024d2ab9-8560-450f-88d3-8815789325aa" />
 </Solution>

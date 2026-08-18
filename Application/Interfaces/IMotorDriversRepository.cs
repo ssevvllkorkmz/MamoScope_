@@ -1,9 +1,9 @@
-﻿using MaMoScope_API.Data;
+﻿using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MamoScope_API.Data
+namespace Application.Interfaces
 {
     public interface IMotorDriversRepository
     {
