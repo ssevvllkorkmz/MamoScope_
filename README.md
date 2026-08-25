@@ -462,13 +462,16 @@ Migration'lar kullanılarak veritabanı şeması oluşturulabilir.
 
 ---
 
-## Çalıştırma
+PROJEYİ ÇALIŞTIRMA
 
-Projeyi çalıştırmak için öncelikle API'nin çalışır durumda olması gerekir.
-
-API çalıştırıldıktan sonra WPF Client başlatılır.
-
-WPF uygulaması API'nin adresine HTTP üzerinden bağlanarak motor test kayıtlarını oluşturabilir ve geçmiş kayıtları görüntüleyebilir.
+1. PostgreSQL kurulmalıdır.
+2. MaMoScope veritabanı oluşturulmalıdır.
+3. Connection String appsettings.json içerisinde
+   uygun PostgreSQL bilgileriyle düzenlenmelidir.
+4. ASP.NET Core Web API çalıştırılmalıdır.
+5. WPF uygulaması çalıştırılmalıdır.
+6. WPF uygulaması API üzerinden motor test kayıtlarına
+   erişmektedir.
 
 ---
 
